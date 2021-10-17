@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class CollisionHandler : MonoBehaviour
 {
@@ -16,8 +17,12 @@ public class CollisionHandler : MonoBehaviour
                 Debug.Log ("Fuel up");
                 break;
             default:
-                Debug.Log ("you are dead");
+                ReloadLevel();
                 break;
         }
+    }
+    void ReloadLevel()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
     }
 }
