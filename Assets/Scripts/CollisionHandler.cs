@@ -14,30 +14,48 @@ public class CollisionHandler : MonoBehaviour
     AudioSource audioSource;
 
     bool isTransitioning = false;
+    bool crashCheatEnabled = false;
 
     void Start()
     {
         audioSource = GetComponent<AudioSource>();
     }
 
+    private void Update()
+    {
+        CheatNextLevel();
+        CheatNoCrash();
+    }
+
     void OnCollisionEnter(Collision other)
     {
-        //if (isTransitioning) return;
-        if (isTransitioning == false)
-        { 
+
+        if (isTransitioning || crashCheatEnabled) return;
+        //if (isTransitioning || crashCheatEnabled == false)
+    
             switch (other.gameObject.tag)
             {
                 case "Finish":
                     StartSuccessSequence();
                     break;
                 case "Friendly":
-                    Debug.Log ("Start");
+                    Debug.Log("Start");
                     break;
                 default:
                     StartCrashSequence();
                     break;
             }
-        }
+ 
+    }
+
+    void CheatNextLevel()
+    {
+        if (Input.GetKey(KeyCode.L)) NextLevel();
+    }
+
+    void CheatNoCrash()
+    {
+        if (Input.GetKey(KeyCode.C)) crashCheatEnabled = !crashCheatEnabled; //this will toggle the collision
     }
 
     void StartCrashSequence()
