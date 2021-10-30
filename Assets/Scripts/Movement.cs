@@ -34,38 +34,62 @@ public class Movement : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.Space))
         {
-            rb.AddRelativeForce(Vector3.up * mainThrust * Time.deltaTime);
-            if (!audioSource.isPlaying) audioSource.PlayOneShot(mainengine);
-            rocketBooster.Play();
+            StartThrusting();
         }
         else
         {
-            audioSource.Stop();
-            rocketBooster.Stop();
+            StopThrusting();
         }
     }
 
-    void ProcessRotation ()
+    void ProcessRotation()
     {
         if (Input.GetKey(KeyCode.A))
         {
-            ApplyRotation(rotationThrust);
-            if (!rightThruster.isPlaying) rightThruster.Play();
+            RotatingLeft();
         }
         else if (Input.GetKey(KeyCode.D))
         {
-            ApplyRotation(-rotationThrust);
-
-            if (!leftThruster.isPlaying) leftThruster.Play();
+            RotatingRight();
         }
         else
         {
-            rightThruster.Stop();
-            leftThruster.Stop();
+            StopRotating();
         }
     }
 
-        void ApplyRotation(float rotationThisFrame)
+    void StartThrusting()
+    {
+        rb.AddRelativeForce(Vector3.up * mainThrust * Time.deltaTime);
+        if (!audioSource.isPlaying) audioSource.PlayOneShot(mainengine);
+        rocketBooster.Play();
+    }
+
+    void StopThrusting()
+    {
+        audioSource.Stop();
+        rocketBooster.Stop();
+    }
+
+    void RotatingRight()
+    {
+        ApplyRotation(-rotationThrust);
+        if (!leftThruster.isPlaying) leftThruster.Play();
+    }
+
+    void RotatingLeft()
+    {
+        ApplyRotation(rotationThrust);
+        if (!rightThruster.isPlaying) rightThruster.Play();
+    }
+
+    void StopRotating()
+    {
+        rightThruster.Stop();
+        leftThruster.Stop();
+    }
+
+    void ApplyRotation(float rotationThisFrame)
     {
         rb.freezeRotation = true; //fixing the physics
         transform.Rotate(Vector3.forward * rotationThisFrame * Time.deltaTime);
