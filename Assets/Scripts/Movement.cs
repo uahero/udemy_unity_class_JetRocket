@@ -96,3 +96,5 @@ public class Movement : MonoBehaviour
         rb.freezeRotation = false; //unfreezing the fix
     }
 }
+
+// this is a test line to check if GitHub works
